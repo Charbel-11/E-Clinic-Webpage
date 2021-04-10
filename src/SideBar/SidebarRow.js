@@ -2,10 +2,10 @@ import React from 'react';
 import './SideBarRow.css'
 
 
-function SidebarRow({Icon, title}){
+function SidebarRow({fcn, Icon, title}){
     return <div className = "sideBarRow">
-        {Icon && <Icon></Icon>}
-        <h4>{title}</h4>
+        {Icon && <Icon onClick = {fcn}></Icon>}
+        <h4 >{title}</h4>
     </div>
 }
 

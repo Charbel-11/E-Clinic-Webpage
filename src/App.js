@@ -5,7 +5,7 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
 import SideBar from "./SideBar/Sidebar"
 import homepage from './homepage.png'
@@ -24,6 +24,8 @@ function App() {
   // States
   let [userToken, setUserToken] = useState(null);
   let [authState, setAuthState] = useState(States.PENDING);
+  let [appointmentsVariable, setAppointmentsVariable] = useState(false);
+  let [make_app, set_make_app] = useState(false);
   
 
 
@@ -58,9 +60,6 @@ function App() {
         setUserToken(body.token);
       });
   }
-
-
-
 
 
   return (
@@ -101,12 +100,28 @@ function App() {
       {
         userToken !== null ? (
           <div className = "loggedInHome"> 
-            <SideBar className = "sideBar"></SideBar>
+            <SideBar
+                 setAppointmentsVariable = {() => {setAppointmentsVariable(true)}} 
+                 make_app = {() => {set_make_app(true)}}
+                 className = "sideBar">
+            </SideBar>
             <div className = "Feed">
-              Hello World 
+              {
+                appointmentsVariable === true && 
+                <div>
+                   Appointment    
+                </div>
+              }
+              {
+                make_app === true && 
+                <div> 
+                    Create an appointment 
+                </div>
+              } 
             </div>
           </div>
-        ) : <div className = "home"><img src={homepage} className = "homeImage" width = '500' height = '500'></img> </div>
+        ) : <div className = "home">
+        <img src={homepage} className = "homeImage" width = '500' height = '500'></img> </div>
       }
 
 
