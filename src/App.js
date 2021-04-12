@@ -7,6 +7,8 @@ import {
 } from "@material-ui/core";
 import { useState, useEffect} from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
+import { MaterialUIFormSubmit } from "./Form/MaterialUIFormSubmit";
+
 import SideBar from "./SideBar/Sidebar"
 import homepage from './homepage.png'
 
@@ -31,7 +33,7 @@ function App() {
 
   // Helper Functions
   function createUser(username, password) {
-    return fetch(`${SERVER_URL}/addUser`, {
+    return fetch(`${SERVER_URL}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -44,7 +46,7 @@ function App() {
   }
 
   function login(username, password) {
-    return fetch(`${SERVER_URL}/authenticate`, {
+    return fetch(`${SERVER_URL}/authentication`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -109,13 +111,14 @@ function App() {
               {
                 appointmentsVariable === true && 
                 <div>
-                   Appointment    
+                   Appointments 
                 </div>
               }
               {
                 make_app === true && 
-                <div> 
-                    Create an appointment 
+                <div className = "FeedBox">
+                   <h1>Create an Appointment by filling the Form Below!</h1>
+                   <MaterialUIFormSubmit></MaterialUIFormSubmit>    
                 </div>
               } 
             </div>

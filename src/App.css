@@ -38,3 +38,11 @@ html, body{
   border-left-width: 1px;
   border-left-color: black
 }
+
+.FeedBox{
+  margin: 35px;
+}
+
+.FeedBox > h1 {
+  margin : 15px;
+}
