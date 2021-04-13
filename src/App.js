@@ -29,7 +29,10 @@ function App() {
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
   
-
+  function closeAllPanels(){
+    setAppointmentsVariable(false);
+    set_make_app(false);
+  }
 
   // Helper Functions
   function createUser(username, password) {
@@ -103,8 +106,8 @@ function App() {
         userToken !== null ? (
           <div className = "loggedInHome"> 
             <SideBar
-                 setAppointmentsVariable = {() => {setAppointmentsVariable(true)}} 
-                 make_app = {() => {set_make_app(true)}}
+                 setAppointmentsVariable = {() => {closeAllPanels(); setAppointmentsVariable(true);}} 
+                 make_app = {() => {closeAllPanels(); set_make_app(true);}}
                  className = "sideBar">
             </SideBar>
             <div className = "Feed">
