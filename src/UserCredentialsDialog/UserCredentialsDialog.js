@@ -1,6 +1,9 @@
 import { Button, Dialog, DialogTitle, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import "./UserCredentialsDialog.css";
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 // Component that presents a dialog to collect credentials from the user
 function UserCredentialsDialog({
   open,
@@ -11,6 +14,8 @@ function UserCredentialsDialog({
 }) {
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
+  let [remember, setRemember] = useState("");
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <div className="dialog-container">
@@ -33,10 +38,20 @@ function UserCredentialsDialog({
             onChange={({ target: { value } }) => setPassword(value)}
           />
         </div>
+        <FormControlLabel
+        control={
+          <Checkbox
+            name="checkedB"
+            color="primary"
+            onChange={({ target: { checked } }) => setRemember(checked)}
+          />
+        }
+        label="Remember Me"
+        />
         <Button
           color="primary"
           variant="contained"
-          onClick={() => onSubmit(username, password)}
+          onClick={() => onSubmit(username, password, remember)}
         >
           {submitText}
         </Button>

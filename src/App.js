@@ -8,6 +8,7 @@ import {
 import { useState, useEffect} from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
 import { MaterialUIFormSubmit } from "./Form/MaterialUIFormSubmit";
+import { getUserToken, saveUserToken } from "./localStorage";
 
 import SideBar from "./SideBar/Sidebar"
 import homepage from './homepage.png'
@@ -24,7 +25,7 @@ var SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
   // States
-  let [userToken, setUserToken] = useState(null);
+  let [userToken, setUserToken] = useState(getUserToken());
   let [authState, setAuthState] = useState(States.PENDING);
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
@@ -35,7 +36,7 @@ function App() {
   }
 
   // Helper Functions
-  function createUser(username, password) {
+  function createUser(username, password,remember) {
     return fetch(`${SERVER_URL}/user`, {
       method: "POST",
       headers: {
@@ -45,10 +46,10 @@ function App() {
         user_name: username,
         password: password
       })
-    }).then(response => login(username, password));
+    }).then(response => login(username, password, remember));
   }
 
-  function login(username, password) {
+  function login(username, password, remember) {
     return fetch(`${SERVER_URL}/authentication`, {
       method: "POST",
       headers: {
@@ -63,7 +64,14 @@ function App() {
       .then(body => {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
+        if (remember) { saveUserToken(body.token); }
+        else { saveUserToken(null); }
       });
+  }
+
+  function logout(){
+    setUserToken(null);
+    saveUserToken(null);
   }
 
 
@@ -77,7 +85,7 @@ function App() {
           </Typography>
           <div>
             {userToken !== null ? (
-              <Button color="inherit" onClick = {() => setUserToken(null)}>
+              <Button color="inherit" onClick = {() => logout()}>
                 Logout
               </Button>
             ) : (
@@ -156,8 +164,8 @@ function App() {
 
       <UserCredentialDialog
         open={authState == States.USER_CREATION ? true : false}
-        onSubmit={(username, password) => {
-          createUser(username, password);
+        onSubmit={(username, password, remember) => {
+          createUser(username, password, remember);
         }}
         onClose={() => {
           setAuthState(States.PENDING);
@@ -168,8 +176,8 @@ function App() {
 
       <UserCredentialDialog
         open={authState == States.USER_LOG_IN ? true : false}
-        onSubmit={(username, password) => {
-          login(username, password);
+        onSubmit={(username, password, remember) => {
+          login(username, password, remember);
         }}
         onClose={() => {
           setAuthState(States.PENDING);
