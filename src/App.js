@@ -9,7 +9,9 @@ import { useState } from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
 import SignUpDialog from "./SignUpDialog/SignUpDialog"
 import { MakeAppointment } from "./Appointments/MakeAppointment";
+import Doctors from "./Doctors/Doctors"
 import { getUserToken, saveUserToken } from "./localStorage";
+
 
 import SideBar from "./SideBar/Sidebar"
 import homepage from './homepage.png'
@@ -30,10 +32,12 @@ function App() {
   let [authState, setAuthState] = useState(States.PENDING);
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
+  let [view_docs, set_view_docs] = useState(false);
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
     set_make_app(false);
+    set_view_docs(false);
   }
 
   // Helper Functions
@@ -120,13 +124,14 @@ function App() {
             <SideBar
                  setAppointmentsVariable = {() => {closeAllPanels(); setAppointmentsVariable(true);}} 
                  make_app = {() => {closeAllPanels(); set_make_app(true);}}
+                 view_docs = {() => {closeAllPanels(); set_view_docs(true)}}
                  className = "sideBar">
             </SideBar>
             <div className = "Feed">
               {
                 appointmentsVariable === true && 
                 <div>
-                   Appointments 
+                   Appointments  
                 </div>
               }
               {
@@ -134,6 +139,13 @@ function App() {
                 <div className = "FeedBox">
                    <h1>Create an Appointment by filling the Form Below!</h1>
                    <MakeAppointment SERVER_URL={SERVER_URL} token={userToken}></MakeAppointment>    
+                </div>
+              } 
+              {
+                view_docs === true && 
+                <div className = "FeedBox">
+                <h1>View Doctors in the Table Below!</h1>
+                   <Doctors></Doctors>   
                 </div>
               } 
             </div>

@@ -8,11 +8,11 @@ import LocalPharmacyIcon from '@material-ui/icons/LocalPharmacy';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import InfoIcon from '@material-ui/icons/Info';
 
-function Sidebar({setAppointmentsVariable, make_app}){
+function Sidebar({setAppointmentsVariable, make_app, view_docs}){
     return <div>
         <SidebarRow fcn = {setAppointmentsVariable} Icon = {LocalHospitalIcon} title = 'View Appointments'></SidebarRow>
         <SidebarRow fcn = {make_app} Icon = {ScheduleIcon} title = 'Make an Appointment'></SidebarRow>
-        <SidebarRow Icon = {HealingIcon} title = 'View Doctors'></SidebarRow>
+        <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Doctors'></SidebarRow>
         <SidebarRow Icon = {FavoriteIcon} title = 'Donate'></SidebarRow>
         <SidebarRow Icon = {LocalPharmacyIcon} title = 'View Your Medications'></SidebarRow>
         <SidebarRow Icon = {MenuBookIcon} title = 'View Your Reports'></SidebarRow>
