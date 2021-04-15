@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 import { Button, Icon, TextField, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-export function MaterialUIFormSubmit(props) {
+export function MakeAppointment({SERVER_URL, token}) {
   const useStyles = makeStyles(theme => ({
     button: {
       margin: theme.spacing(1)
@@ -30,77 +30,56 @@ export function MaterialUIFormSubmit(props) {
     }
   }));
 
-  const [formInput, setFormInput] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      doctor: "",  
-      appointment_time: "",
-      appointment_description: ""
-    }
-  );
+  let [doctorName, setDoctorName] = useState("");
+  let [appointmentTime, setAppointmentTime] = useState("");
+  let [appointmentDescription, setAppointmentDescription] = useState("");
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
-
-    let data = { formInput };
-
-    fetch("http://127.0.0.1:5000/exchangeRate/3", {
-      method: "GET",
+  function createAppointment(event) {
+    event.preventDefault();
+    return fetch(`${SERVER_URL}/appointment`, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(response => console.log("Success:", JSON.stringify(response)))
-      .catch(error => console.error("Error:", error));
-  };
-
-  const handleInput = evt => {
-    const name = evt.target.name;
-    const newValue = evt.target.value;
-    setFormInput({ [name]: newValue });
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        doctor_name: doctorName,
+        appointment_date: appointmentTime,
+        appointment_description : appointmentDescription
+      })
+    }).then(response => {console.log(response)});  //todo, add it to all the appointment?
   };
 
   const classes = useStyles();
-
-  console.log(props);
-
   return (
     <div>
       <Paper className={classes.root}>
-        <Typography variant="h5" component="h3">
-          {props.formName}
-        </Typography>
-        <Typography component="p">{props.formDescription}</Typography>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createAppointment}>
            <TextField
             label="Doctor"
             id="margin-normal"
             name="doctor"
-            defaultValue={formInput.name}
             className={classes.textField}
-            helperText="Ahmad Serhal"
-            onChange={handleInput}
+            helperText="Username"
+            onChange={ ({ target: { value } }) => setDoctorName(value) }
           />
           <TextField
             label="Appointment time"
             id="margin-normal"
             name="appointment_time"
-            defaultValue={formInput.email}
             className={classes.textField}
-            helperText="02/05/2021"
-            onChange={handleInput}
+            helperText="YYYY-MM-DDTHH:MM, e.g. 2017-01-12T14:12"
+            onChange={ ({ target: { value } }) => setAppointmentTime(value) }
           />
           <TextField
             label="Description"
             id="margin-normal"
             name="appointment_description"
-            defaultValue={formInput.name}
             className={classes.textField}
-            helperText="Severe Headache"
-            onChange={handleInput}
+            helperText="e.g., severe headache"
+            onChange={ ({ target: { value } }) => setAppointmentDescription(value) }
           />
+
           <Button
             type="submit"
             variant="contained"

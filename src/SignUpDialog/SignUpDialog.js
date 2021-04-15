@@ -81,7 +81,7 @@ function SignUpDialog({
         <Button
           color="primary"
           variant="contained"
-          onClick={() => onSubmit(username, password, firstName, lastName, information)}
+          onClick={() => onSubmit(username, password, firstName, lastName, information, remember)}
         >
           {submitText}
         </Button>

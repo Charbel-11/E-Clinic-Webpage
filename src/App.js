@@ -5,10 +5,10 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import { useState, useEffect} from "react";
+import { useState } from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
 import SignUpDialog from "./SignUpDialog/SignUpDialog"
-import { MaterialUIFormSubmit } from "./Form/MaterialUIFormSubmit";
+import { MakeAppointment } from "./Appointments/MakeAppointment";
 import { getUserToken, saveUserToken } from "./localStorage";
 
 import SideBar from "./SideBar/Sidebar"
@@ -22,7 +22,7 @@ const States = {
   USER_AUTHENTICATED: "USER_AUTHENTICATED"
 };
 
-var SERVER_URL = "http://127.0.0.1:5000";
+export const SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
   // States
@@ -133,7 +133,7 @@ function App() {
                 make_app === true && 
                 <div className = "FeedBox">
                    <h1>Create an Appointment by filling the Form Below!</h1>
-                   <MaterialUIFormSubmit></MaterialUIFormSubmit>    
+                   <MakeAppointment SERVER_URL={SERVER_URL} token={userToken}></MakeAppointment>    
                 </div>
               } 
             </div>
@@ -167,7 +167,7 @@ function App() {
 
 
       <SignUpDialog
-        open={authState == States.USER_CREATION ? true : false}
+        open={authState === States.USER_CREATION ? true : false}
         onSubmit={(username, password, first_name, last_name, information, remember) => {
           createUser(username, password, first_name, last_name, information, remember);
         }}
@@ -179,7 +179,7 @@ function App() {
       />
 
       <UserCredentialDialog
-        open={authState == States.USER_LOG_IN ? true : false}
+        open={authState === States.USER_LOG_IN ? true : false}
         onSubmit={(username, password, remember) => {
           login(username, password, remember);
         }}
