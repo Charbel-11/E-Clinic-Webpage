@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import { useState, useEffect} from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
+import SignUpDialog from "./SignUpDialog/SignUpDialog"
 import { MaterialUIFormSubmit } from "./Form/MaterialUIFormSubmit";
 import { getUserToken, saveUserToken } from "./localStorage";
 
@@ -36,7 +37,7 @@ function App() {
   }
 
   // Helper Functions
-  function createUser(username, password,remember) {
+  function createUser(username, password, first_name, last_name, information, remember) {
     return fetch(`${SERVER_URL}/user`, {
       method: "POST",
       headers: {
@@ -44,7 +45,10 @@ function App() {
       },
       body: JSON.stringify({
         user_name: username,
-        password: password
+        password: password,
+        first_name : first_name,
+        last_name : last_name,
+        information : information
       })
     }).then(response => login(username, password, remember));
   }
@@ -162,10 +166,10 @@ function App() {
 
 
 
-      <UserCredentialDialog
+      <SignUpDialog
         open={authState == States.USER_CREATION ? true : false}
-        onSubmit={(username, password, remember) => {
-          createUser(username, password, remember);
+        onSubmit={(username, password, first_name, last_name, information, remember) => {
+          createUser(username, password, first_name, last_name, information, remember);
         }}
         onClose={() => {
           setAuthState(States.PENDING);

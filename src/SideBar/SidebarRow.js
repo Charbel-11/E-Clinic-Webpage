@@ -5,7 +5,7 @@ import './SideBarRow.css'
 function SidebarRow({fcn, Icon, title}){
     return <div className = "sideBarRow">
         {Icon && <Icon onClick = {fcn}></Icon>}
-        <h4 >{title}</h4>
+        <h4 onClick = {fcn}>{title}</h4>
     </div>
 }
 
