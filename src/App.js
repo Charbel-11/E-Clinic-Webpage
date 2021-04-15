@@ -10,6 +10,7 @@ import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog"
 import SignUpDialog from "./SignUpDialog/SignUpDialog"
 import { MakeAppointment } from "./Appointments/MakeAppointment";
 import Doctors from "./Doctors/Doctors"
+import ViewAppointments from "./Appointments/ViewAppointments"
 import { getUserToken, saveUserToken } from "./localStorage";
 
 
@@ -130,8 +131,9 @@ function App() {
             <div className = "Feed">
               {
                 appointmentsVariable === true && 
-                <div>
-                   Appointments  
+                <div className = "FeedBox">
+                   <h1>View Your Appointments in the Table Below!</h1>
+                   <ViewAppointments token={userToken}></ViewAppointments>     
                 </div>
               }
               {

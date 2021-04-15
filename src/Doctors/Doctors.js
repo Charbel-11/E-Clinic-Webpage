@@ -1,13 +1,10 @@
 import React from 'react';
 import { useState, useEffect} from "react";
-import {
-    Typography
-  } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import  {DataGrid}  from "@material-ui/data-grid";
 import './Doctors.css'
 
-function Doctors(){
-
+function Doctors(token){
     let [doctors, setDoctors] = useState([])
 
     function fetchDoctors(){
@@ -24,15 +21,13 @@ function Doctors(){
 
     useEffect(fetchDoctors, [])
 
-
-
     return <div >
             <DataGrid className = "doctor_grid"
               columns={[
-                { field: "first_name" },
-                { field: "last_name" },
-                { field: "user_name" },
-                { field: "information" }
+                { field: "first_name", width: 150 },
+                { field: "last_name", width: 150 },
+                { field: "user_name", width: 150 },
+                { field: "information", width: 150 }
               ]}
               rows={doctors}
               autoHeight
