@@ -34,6 +34,7 @@ function App() {
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
   let [view_docs, set_view_docs] = useState(false);
+  let [userType, setuserType] = useState(0);  // 0 - Admin,  1 - Doctor  2 - Patient 
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
@@ -133,7 +134,7 @@ function App() {
                 appointmentsVariable === true && 
                 <div className = "FeedBox">
                    <h1>View Your Appointments in the Table Below!</h1>
-                   <ViewAppointments token={userToken}></ViewAppointments>     
+                   <ViewAppointments userType = {userType} token={userToken}></ViewAppointments>     
                 </div>
               }
               {
