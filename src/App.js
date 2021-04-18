@@ -139,7 +139,7 @@ function App() {
               {
                 make_app === true && 
                 <div className = "FeedBox">
-                   <h1>Create an Appointment by filling the Form Below!</h1>
+                   <h1>Create an Appointment!</h1>
                    <MakeAppointment SERVER_URL={SERVER_URL} token={userToken}></MakeAppointment>    
                 </div>
               } 

@@ -1,6 +1,27 @@
 import React, { useState } from "react";
-import { Button, Icon, TextField, Paper, Typography } from "@material-ui/core";
+import { Button, TextField, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Calendar from 'react-awesome-calendar';
+
+const events = [{
+    id: 0,
+    color: '#fd3153',
+    from: '2021-05-02T18:00',
+    to: '2021-05-05T19:00',
+    title: 'This is an event'
+}, {
+    id: 1,
+    color: '#1ccb9e',
+    from: '2021-05-01T13:00',
+    to: '2021-05-05T14:00',
+    title: 'This is another event'
+}, {
+    id: 2,
+    color: '#3694DF',
+    from: '2021-05-05T13:00',
+    to: '2021-05-05T20:00',
+    title: 'This is also another event'
+}];
 
 export function MakeAppointment({SERVER_URL, token}) {
   const useStyles = makeStyles(theme => ({
@@ -33,9 +54,9 @@ export function MakeAppointment({SERVER_URL, token}) {
   let [doctorName, setDoctorName] = useState("");
   let [appointmentTime, setAppointmentTime] = useState("");
   let [appointmentDescription, setAppointmentDescription] = useState("");
+  let [state, setState] = useState(0);
 
-  function createAppointment(event) {
-    event.preventDefault();
+  function createAppointment() {
     return fetch(`${SERVER_URL}/appointment`, {
       method: "POST",
       headers: {
@@ -47,14 +68,15 @@ export function MakeAppointment({SERVER_URL, token}) {
         appointment_date: appointmentTime,
         appointment_description : appointmentDescription
       })
-    }).then(response => {console.log(response)});  //todo, add it to all the appointment?
+    }).then(response => {console.log(response)});
   };
 
   const classes = useStyles();
   return (
     <div>
+      <div>
       <Paper className={classes.root}>
-        <form onSubmit={createAppointment}>
+          {state === 0 && 
            <TextField
             label="Doctor"
             id="margin-normal"
@@ -63,15 +85,15 @@ export function MakeAppointment({SERVER_URL, token}) {
             helperText="Username"
             onChange={ ({ target: { value } }) => setDoctorName(value) }
           />
-          <TextField
-            label="Appointment time"
-            id="margin-normal"
-            name="appointment_time"
-            className={classes.textField}
-            helperText="YYYY-MM-DDTHH:MM, e.g. 2017-01-12T14:12"
-            onChange={ ({ target: { value } }) => setAppointmentTime(value) }
+          }
+         { state === 1 &&
+          <Calendar 
+          events={events} 
+          onClickEvent={(event)=> setAppointmentTime(events[event]["from"])}
           />
-          <TextField
+          }
+          {state === 2 && 
+            <TextField
             label="Description"
             id="margin-normal"
             name="appointment_description"
@@ -79,17 +101,52 @@ export function MakeAppointment({SERVER_URL, token}) {
             helperText="e.g., severe headache"
             onChange={ ({ target: { value } }) => setAppointmentDescription(value) }
           />
-
+          }          
+          { state > 0 && 
           <Button
-            type="submit"
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick = {() => {
+              setState(state-1); 
+              if(state === 1) {setAppointmentTime("");}
+            }
+          }
+          >
+            Back
+          </Button>
+          }
+          { ((state === 0 && doctorName !== "") || (state === 1 && appointmentTime !== "")) &&
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick = {() => setState(state+1)}
+          >
+            Next
+          </Button>
+          }
+      </Paper> 
+      </div>
+      <div>
+        <br/> <br/>
+      <Paper className={classes.root}>
+        <Typography variant="body1">Doctor Name: {doctorName}</Typography>
+        <Typography variant="body1">Time: {appointmentTime} </Typography>
+        <Typography variant="body1"> Description: {appointmentDescription} </Typography>
+
+        { state === 2 && appointmentDescription !== "" &&
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={()=>createAppointment()}
           >
             Create
           </Button>
-        </form>
-      </Paper>
+          }
+        </Paper>
+      </div>
     </div>
   );
 }

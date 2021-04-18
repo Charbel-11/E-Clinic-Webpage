@@ -41,8 +41,11 @@ html, body{
 
 .FeedBox{
   margin: 35px;
+  margin-left: 130px;
+  width : 100%;
 }
 
 .FeedBox > h1 {
   margin : 15px;
+  text-align: center;
 }
