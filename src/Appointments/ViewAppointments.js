@@ -21,7 +21,7 @@ function ViewAppointments({ userType, token }) {
   function fetchAppointments() {
     return fetch('http://127.0.0.1:5000/appointment', {
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + token
       },
     })
       .then((response) => response.json())
@@ -29,10 +29,12 @@ function ViewAppointments({ userType, token }) {
   }
 
   function deleteAppointment(appointmentId) {
+    console.log(appointmentId)
     return fetch('http://127.0.0.1:5000/appointment', {
       method: 'DELETE',
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         id: appointmentId
@@ -109,7 +111,7 @@ function ViewAppointments({ userType, token }) {
             </Button>
 
             <Button className="button" variant="contained" size="small" color="primary" 
-              onClick={()=>{deleteAppointment(focusEvent); setFocusEvent(-1)}}>
+              onClick={()=>{deleteAppointment(/* DONT FORGET */ 3); setFocusEvent(-1)}}>
               Cancel Appointment
             </Button>
         </div>
