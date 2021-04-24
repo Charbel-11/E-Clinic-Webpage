@@ -1,9 +1,9 @@
-.DeleteForm {
+.infoForm {
     margin : 30px;
 }
-.amount-box {
-    margin : 8px;
+.button{
+    margin: 10px;
 }
-.UpdateAppointment {
-    margin-top : 20px;
+.form{
+    margin-top: 20px;
 }

@@ -89,7 +89,7 @@ export function MakeAppointment({SERVER_URL, token}) {
          { state === 1 &&
           <Calendar 
           events={events} 
-          onClickEvent={(event)=> setAppointmentTime(events[event]["from"])}
+          onClickEvent={(event) => {setAppointmentTime(events[event]["from"]); setState(state+1); }}
           />
           }
           {state === 2 && 
@@ -122,6 +122,8 @@ export function MakeAppointment({SERVER_URL, token}) {
             color="primary"
             className={classes.button}
             onClick = {() => setState(state+1)}
+            //TODO: If going from 0 to 1, check that the doctor name is valid (otherwise provide feedback)
+            //And change the events variable accordingly
           >
             Next
           </Button>

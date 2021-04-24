@@ -1,98 +1,121 @@
 import React from 'react';
-import { useState, useEffect} from "react";
-import { Typography } from "@material-ui/core";
-import  {DataGrid}  from "@material-ui/data-grid";
-import {
-  Button
-} from "@material-ui/core";
+import { useState, useEffect } from "react";
+import { Paper, TextField, Typography, Button } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Calendar from 'react-awesome-calendar';
 import "./ViewAppointments.css"
 
-function ViewAppointments({userType, token}){
-    let [appointments, setAppointments] = useState([])
-    let [appointmentId, setAppointmentId] = useState(null)
-    let [appointmentDesctiption, setAppointmentDescription] = useState(null)
+function ViewAppointments({ userType, token }) {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      marginBottom: theme.spacing(10)
+    },
+  }));
 
-    function fetchAppointments(){
-        return fetch('http://127.0.0.1:5000/appointment', {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-        })
-            .then((response) => response.json())
-            .then((appointments) => setAppointments(appointments));
-    }
+  let [appointments, setAppointments] = useState([])
+  let [appointmentDescription, setAppointmentDescription] = useState(null)
+  let [events, setEvents] = useState([])
+  let [focusEvent, setFocusEvent] = useState(-1)
 
-    function deleteAppointment(){
-      return fetch('http://127.0.0.1:5000/appointment', {
-        method : 'DELETE',
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          id : appointmentId
-        })
+  function fetchAppointments() {
+    return fetch('http://127.0.0.1:5000/appointment', {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     })
-        .then((response) => response.json())
-        .then(response => console.log("Deleted"));
+      .then((response) => response.json())
+      .then((appointments) => { setAppointments(appointments); updateCalendar(appointments); })
+  }
+
+  function deleteAppointment(appointmentId) {
+    return fetch('http://127.0.0.1:5000/appointment', {
+      method: 'DELETE',
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        id: appointmentId
+      })
+    })
+      .then(() => fetchAppointments())
+  }
+
+  useEffect(fetchAppointments, [])
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
+    return color;
+  }
 
-    useEffect(fetchAppointments, [])
+  function updateCalendar(apptmnts) {
+    var curEvents = [];
+    for (var i = 0; i < apptmnts.length; i++) {
+      var curEvent = {
+        id: i.toString(),
+        color: getRandomColor(),
+        from: apptmnts[i]["appointment_time"],
+        to: apptmnts[i]["appointment_time"],
+        title: apptmnts[i]["doctor_id"]
+      }
+      curEvents.push(curEvent);
+    }
+    setEvents(curEvents);
+  }
 
+  const classes = useStyles();
+  return <div >
+    <Calendar
+      events={events}
+      onClickEvent={(event) => setFocusEvent(event)} />
 
-    return <div >
-            <DataGrid className = "appointments_grid"
-              columns={[
-                { field: "doctor_id", headerName: "Doctor", width: 150 },
-                { field: "appointment_time", headerName: "Time", width: 175 },
-                { field: "appointment_description", headerName: "Description", width: 175}
-              ]}
-              rows={appointments}
-              autoHeight
-              spacing = {1}
-            />
-            {
-              userType == 0 && <div className = "DeleteForm"> 
-                <h2> Delete Appointment by Inserting the Corresponding Id</h2>
-                <form className = "DeleteAppointment">
-                    <label>Appointment Id</label>
-                    <input
-                      className="amount-box"
-                      id="appointmentId"
-                      type="number"
-                      value={appointmentId}
-                      onChange={e => setAppointmentId(e.target.value)}
-                    />
-                     <Button variant="contained" size = "small" color="primary">
-                      Delete
-                    </Button>
-                </form>
+    <Paper className={classes.root}>
+      {focusEvent !== -1
+        &&
+        <div className="infoForm">
+          <Typography variant="h4" align="center"> Appointment with {appointments[focusEvent]["doctor_id"]} </Typography>
 
-                <h2 className = "UpdateAppointment">Update Appointment description below</h2>
-                <form>
-                    <label>Appointment Id</label>
-                    <input
-                      className="amount-box"
-                      id="appointmentId"
-                      type="number"
-                      value={appointmentId}
-                      onChange={e => setAppointmentId(e.target.value)}
-                    />
-                    <label>Appointment Description</label>
-                    <input
-                      className="amount-box"
-                      id="appointmentDescription"
-                      type="text"
-                      value={appointmentDesctiption}
-                      onChange={e => setAppointmentDescription(e.target.value)}
-                    />
-                     <Button variant="contained" size = "small" color="primary">
-                      Update
-                    </Button>
-                </form>
+          <Typography className="form" variant="h5"> Description </Typography>
+          <Typography variant="body1"> {appointments[focusEvent]["description"]} </Typography>
 
-              </div>
-            }
-    </div>
+          <Typography className="form" variant="h5">Update Appointment description</Typography>
+          <TextField            
+            label="New Description"
+            type="text"
+            value={appointmentDescription}
+            onChange={({ target: { value } }) => setAppointmentDescription(value)}>
+          </TextField>
+            <Button className="button" variant="contained" size="small" color="primary">
+              Update
+            </Button>
+
+          <Typography className="form" variant="h5">Change Appointment Time</Typography>
+          <TextField            
+            label="New Time"
+            type="text"
+            value={appointments[focusEvent]["appointment_time"]}
+            onChange={({ target: { value } }) =>{}}>   
+          </TextField>
+          <Button className="button" variant="contained" size="small" color="primary">
+              Update
+            </Button>
+
+            <Button className="button" variant="contained" size="small" color="primary" onClick={() => setFocusEvent(-1)}>
+              Close
+            </Button>
+
+            <Button className="button" variant="contained" size="small" color="primary" 
+              onClick={()=>{deleteAppointment(focusEvent); setFocusEvent(-1)}}>
+              Cancel Appointment
+            </Button>
+        </div>
+      }
+    </Paper>
+  </div>
 }
 
 export default ViewAppointments

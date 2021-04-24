@@ -21,7 +21,6 @@ import homepage from './homepage.png'
 
 const States = {
   PENDING: "PENDING",
-  USER_CREATION: "USER_CREATION",
   USER_LOG_IN: "USER_LOG_IN",
   USER_AUTHENTICATED: "USER_AUTHENTICATED"
 };
@@ -42,6 +41,7 @@ function App() {
     setAppointmentsVariable(false);
     set_make_app(false);
     set_view_docs(false);
+    setRegister(false);
   }
 
   // Helper Functions
@@ -110,13 +110,6 @@ function App() {
               <div>
                 <Button
                   color="inherit"
-                  onClick={() => setAuthState(States.USER_CREATION)}
-                >
-                  {" "}
-                  Register{" "}
-                </Button>
-                <Button
-                  color="inherit"
                   onClick={() => setAuthState(States.USER_LOG_IN)}
                 >
                   Login
@@ -135,14 +128,15 @@ function App() {
                  setAppointmentsVariable = {() => {closeAllPanels(); setAppointmentsVariable(true);}} 
                  make_app = {() => {closeAllPanels(); set_make_app(true);}}
                  view_docs = {() => {closeAllPanels(); set_view_docs(true)}}
-                 userType = {userType} register = {() => {closeAllPanels(); setRegister(true)}}
+                 userType = {userType}
+                 register = {() => {closeAllPanels(); setRegister(true)}}
                  className = "sideBar">
             </SideBar>
             <div className = "Feed">
               {
                 appointmentsVariable === true && 
                 <div className = "FeedBox">
-                   <h1>View Your Appointments in the Table Below!</h1>
+                   <h1>Select an appointment for more details</h1>
                    <ViewAppointments userType = {userType} token={userToken}></ViewAppointments>     
                 </div>
               }
