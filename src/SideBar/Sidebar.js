@@ -7,12 +7,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalPharmacyIcon from '@material-ui/icons/LocalPharmacy';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import InfoIcon from '@material-ui/icons/Info';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-function Sidebar({setAppointmentsVariable, make_app, view_docs}){
+function Sidebar({setAppointmentsVariable, make_app, view_docs, userType, register}){
     return <div>
         <SidebarRow fcn = {setAppointmentsVariable} Icon = {LocalHospitalIcon} title = 'View Appointments'></SidebarRow>
         <SidebarRow fcn = {make_app} Icon = {ScheduleIcon} title = 'Make an Appointment'></SidebarRow>
         <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Doctors'></SidebarRow>
+        {userType === 0 &&  <SidebarRow fcn = {register} Icon = {PersonAddIcon} title = "Register a User"></SidebarRow>}
         <SidebarRow Icon = {FavoriteIcon} title = 'Donate'></SidebarRow>
         <SidebarRow Icon = {LocalPharmacyIcon} title = 'View Your Medications'></SidebarRow>
         <SidebarRow Icon = {MenuBookIcon} title = 'View Your Reports'></SidebarRow>

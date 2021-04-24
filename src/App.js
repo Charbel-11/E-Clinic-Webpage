@@ -12,6 +12,7 @@ import { MakeAppointment } from "./Appointments/MakeAppointment";
 import Doctors from "./Doctors/Doctors"
 import ViewAppointments from "./Appointments/ViewAppointments"
 import { getUserToken, saveUserToken } from "./localStorage";
+import Register from './Register/Register'
 
 
 import SideBar from "./SideBar/Sidebar"
@@ -34,6 +35,7 @@ function App() {
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
   let [view_docs, set_view_docs] = useState(false);
+  let [register, setRegister] = useState(false);
   let [userType, setuserType] = useState(0);  // 0 - Admin,  1 - Doctor  2 - Patient 
   
   function closeAllPanels(){
@@ -74,6 +76,12 @@ function App() {
       .then(body => {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
+        if(username === 'admin'){
+          setuserType(0);
+        }
+        else{
+          setuserType(1);
+        }
         if (remember) { saveUserToken(body.token); }
         else { saveUserToken(null); }
       });
@@ -127,6 +135,7 @@ function App() {
                  setAppointmentsVariable = {() => {closeAllPanels(); setAppointmentsVariable(true);}} 
                  make_app = {() => {closeAllPanels(); set_make_app(true);}}
                  view_docs = {() => {closeAllPanels(); set_view_docs(true)}}
+                 userType = {userType} register = {() => {closeAllPanels(); setRegister(true)}}
                  className = "sideBar">
             </SideBar>
             <div className = "Feed">
@@ -151,6 +160,13 @@ function App() {
                    <Doctors></Doctors>   
                 </div>
               } 
+              {
+                register === true && 
+                <div className = "FeedBox">
+                   <h1>Register a User by Filling the Form Below!</h1>
+                   <Register SERVER_URL={SERVER_URL} token = {userToken}></Register>     
+                </div>
+              }
             </div>
           </div>
         ) : <div className = "home">
