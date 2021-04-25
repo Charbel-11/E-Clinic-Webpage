@@ -77,12 +77,7 @@ function App() {
       .then(body => {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
-        if(username === 'admin'){
-          setuserType(0);
-        }
-        else{
-          setuserType(1);
-        }
+        setuserType(body.is_doctor);
         if (remember) { saveUserToken(body.token); }
         else { saveUserToken(null); }
       });
@@ -120,7 +115,7 @@ function App() {
           </div>
         </Toolbar>
       </AppBar>
-
+              {userType}
       {
         userToken !== null ? (
           <div className = "loggedInHome"> 
