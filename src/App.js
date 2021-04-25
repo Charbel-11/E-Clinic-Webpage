@@ -76,10 +76,8 @@ function App() {
       .then(body => {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
-        var curType = 1;
-        if(username === 'admin'){ curType = 0; }
-        setUserType(curType);
-        if (remember) { saveUserToken(body.token); saveUserType(curType); }
+        setUserType(body.is_doctor);
+        if (remember) { saveUserToken(body.token); saveUserType(body.is_doctor); }
         else { saveUserToken(null); saveUserType(null); }
       });
   }
@@ -117,7 +115,6 @@ function App() {
           </div>
         </Toolbar>
       </AppBar>
-
       {
         userToken !== null ? (
           <div className = "loggedInHome"> 
@@ -147,11 +144,11 @@ function App() {
               {
                 view_docs === true && 
                 <div className = "FeedBox">
-                   {userType === 1 && <h1>View Doctors in the Table Below!</h1>}
+                   {userType === 2 && <h1>View Doctors in the Table Below!</h1>}
                    {userType === 0 && <h1>View Users in the Table Below!</h1>}
                    
                    {userType === 0 && <Users token = {userToken}></Users>}
-                   {userType === 1 && <Doctors token = {userToken}></Doctors>}
+                   {userType === 2 && <Doctors token = {userToken}></Doctors>}
                 </div>
               } 
               {
