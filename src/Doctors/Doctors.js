@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import  {DataGrid}  from "@material-ui/data-grid";
 import './Doctors.css'
 
-function Doctors(token){
+function Doctors({token}){
     let [doctors, setDoctors] = useState([])
 
     function fetchDoctors(){

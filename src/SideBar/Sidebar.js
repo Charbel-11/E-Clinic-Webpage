@@ -15,8 +15,7 @@ function Sidebar({setAppointmentsVariable, make_app, view_docs, userType, regist
         {userType !== 0 && <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Doctors'></SidebarRow>}
         {userType === 0 && <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Users'></SidebarRow>}
         {userType === 0 &&  <SidebarRow fcn = {register} Icon = {PersonAddIcon} title = "Register a User"></SidebarRow>}
-        <SidebarRow Icon = {LocalPharmacyIcon} title = 'View Your Medications'></SidebarRow>
-        <SidebarRow Icon = {MenuBookIcon} title = 'View Your Reports'></SidebarRow>
+        {userType !== 0 && <SidebarRow Icon = {MenuBookIcon} title = 'View Your Reports'></SidebarRow>}
         <SidebarRow Icon = {InfoIcon} title = 'About Us'></SidebarRow>
     </div>
 }

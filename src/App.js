@@ -13,6 +13,7 @@ import Doctors from "./Doctors/Doctors"
 import ViewAppointments from "./Appointments/ViewAppointments"
 import { getUserToken, saveUserToken } from "./localStorage";
 import Register from './Register/Register'
+import Users from './Users/Users'
 
 
 import SideBar from "./SideBar/Sidebar"
@@ -120,7 +121,6 @@ function App() {
         </Toolbar>
       </AppBar>
 
-
       {
         userToken !== null ? (
           <div className = "loggedInHome"> 
@@ -150,8 +150,11 @@ function App() {
               {
                 view_docs === true && 
                 <div className = "FeedBox">
-                <h1>View Doctors in the Table Below!</h1>
-                   <Doctors></Doctors>   
+                   {userType === 1 && <h1>View Doctors in the Table Below!</h1>}
+                   {userType === 0 && <h1>View Users in the Table Below!</h1>}
+                   
+                   {userType === 0 && <Users token = {userToken}></Users>}
+                   {userType === 1 && <Doctors token = {userToken}></Doctors>}
                 </div>
               } 
               {

@@ -82,9 +82,11 @@ function ViewAppointments({ userType, token }) {
           <Typography variant="h4" align="center"> Appointment with {appointments[focusEvent]["doctor_id"]} </Typography>
 
           <Typography className="form" variant="h5"> Description </Typography>
+
           <Typography variant="body1"> {appointments[focusEvent]["description"]} </Typography>
 
           <Typography className="form" variant="h5">Update Appointment description</Typography>
+          
           <TextField            
             label="New Description"
             type="text"
