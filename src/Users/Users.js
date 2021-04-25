@@ -13,10 +13,7 @@ function Users({token}){
     let [lastName, setLastName] = useState("")
     let [information, setInformation] = useState("")
 
-
-
     function fetchUsers(){
-        console.log(token)
         try {
             return fetch('http://127.0.0.1:5000/users', {
             headers: {

@@ -11,10 +11,9 @@ import SignUpDialog from "./SignUpDialog/SignUpDialog"
 import { MakeAppointment } from "./Appointments/MakeAppointment";
 import Doctors from "./Doctors/Doctors"
 import ViewAppointments from "./Appointments/ViewAppointments"
-import { getUserToken, saveUserToken } from "./localStorage";
+import { getUserToken, saveUserToken, saveUserType, getUserType } from "./localStorage";
 import Register from './Register/Register'
 import Users from './Users/Users'
-
 
 import SideBar from "./SideBar/Sidebar"
 import homepage from './homepage.png'
@@ -36,7 +35,7 @@ function App() {
   let [make_app, set_make_app] = useState(false);
   let [view_docs, set_view_docs] = useState(false);
   let [register, setRegister] = useState(false);
-  let [userType, setuserType] = useState(0);  // 0 - Admin,  1 - Doctor  2 - Patient 
+  let [userType, setUserType] = useState(getUserType());  // 0 - Admin,  1 - User
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
@@ -77,20 +76,18 @@ function App() {
       .then(body => {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
-        if(username === 'admin'){
-          setuserType(0);
-        }
-        else{
-          setuserType(1);
-        }
-        if (remember) { saveUserToken(body.token); }
-        else { saveUserToken(null); }
+        var curType = 1;
+        if(username === 'admin'){ curType = 0; }
+        setUserType(curType);
+        if (remember) { saveUserToken(body.token); saveUserType(curType); }
+        else { saveUserToken(null); saveUserType(null); }
       });
   }
 
   function logout(){
     setUserToken(null);
     saveUserToken(null);
+    saveUserType(null);
   }
 
 
@@ -169,29 +166,6 @@ function App() {
         ) : <div className = "home">
         <img src={homepage} className = "homeImage" width = '500' height = '500'></img> </div>
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
       <SignUpDialog

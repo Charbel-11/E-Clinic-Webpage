@@ -24,10 +24,10 @@ function Doctors({token}){
     return <div >
             <DataGrid className = "doctor_grid"
               columns={[
-                { field: "first_name", width: 150 },
-                { field: "last_name", width: 150 },
-                { field: "user_name", width: 150 },
-                { field: "information", width: 150 }
+                { field: "first_name", headerName: "First Name", width: 150 },
+                { field: "last_name", headerName: "Last Name", width: 150 },
+                { field: "user_name", headerName: "Username", width: 150 },
+                { field: "information", headerName: "Information", width: 150 }
               ]}
               rows={doctors}
               autoHeight
