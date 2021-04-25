@@ -1,63 +1,72 @@
-import { Button, Dialog, DialogTitle, TextField } from "@material-ui/core";
+import { Button, Dialog, DialogTitle, Typography, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import "./AppointmentsDetails.css";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 // Component that presents a dialog to collect credentials from the user
 function AppointmentsDetails({
-  open,
-  onSubmit,
-  onClose,
-  title,
-  submitText
+    open,
+    onClose,
+    appointment,
+    deleteAppointment
 }) {
-  let [username, setUsername] = useState("");
-  let [password, setPassword] = useState("");
-  let [remember, setRemember] = useState("");
+    let [newAppointmentDescription, setAppointmentDescription] = useState(null)
+    let [newAppointmentTime, setAppointmentTime] = useState(null)
 
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <div className="dialog-container">
-        <DialogTitle>{title}</DialogTitle>
-        <div className="form-item">
-          <TextField
-            fullWidth
-            label="Username"
-            type="text"
-            value={username}
-            onChange={({ target: { value } }) => setUsername(value)}
-          />
-        </div>
-        <div className="form-item">
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
-          />
-        </div>
-        <FormControlLabel
-        control={
-          <Checkbox
-            name="checkedB"
-            color="primary"
-            onChange={({ target: { checked } }) => setRemember(checked)}
-          />
-        }
-        label="Remember Me"
-        />
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => onSubmit(username, password, remember)}
-        >
-          {submitText}
-        </Button>
-      </div>
-    </Dialog>
-  );
+    return (
+        <Dialog open={open} onClose={onClose} fullWidth>
+            <div className="dialog-container">
+                <Typography variant="h4" className="title"> Appointment with {appointment["doctor_id"]} </Typography>
+ 
+                <div className="form-item" style={{ display: "flex" }}>
+                    <Typography style={{flexDirection:'column'}} > Time: </Typography>
+                    <Typography style={{marginLeft:20}}> {appointment["appointment_time"]} </Typography>
+                </div>
+
+                <div className="form-item" style={{ display: "flex" }}>
+                    <Typography style={{flexDirection:'column'}} > Link: </Typography>
+                    <Typography style={{marginLeft:20}}> ... </Typography>
+                </div>
+
+                <div className="form-item" style={{ display: "flex" }}>
+                    <Typography style={{flexDirection:'column'}} > Description: </Typography>
+                    <Typography style={{marginLeft:20}}> ... </Typography>
+                </div>
+
+                <Typography className="form-item">Update Appointment description</Typography>
+                <div className="form-item">
+                <TextField
+                    label="New Description"
+                    type="text"
+                    value={newAppointmentDescription}
+                    onChange={({ target: { value } }) => setAppointmentDescription(value)}
+                    style={{flexDirection:'column'}}
+                    />
+                <Button className="button" variant="contained" size="small" color="primary" style={{marginLeft:20}}>
+                    Update
+                </Button>
+                </div>
+
+                <Typography className="form-item">Change Appointment Time</Typography>
+                <div className="form-item">
+                <TextField
+                    label="New Time"
+                    type="text"
+                    value={newAppointmentTime}
+                    onChange={({ target: { value } }) => setAppointmentTime(value)}
+                    style={{flexDirection:'column'}}
+                />
+                <Button className="button" variant="contained" size="small" color="primary" style={{marginLeft:20}}>
+                    Update
+                </Button>
+                </div>
+
+                <Button className="button" variant="contained" size="small" color="primary"
+                    onClick={() => { deleteAppointment(/* DONT FORGET */ 3); onClose(); }}>
+                    Cancel Appointment
+                </Button>
+            </div>
+        </Dialog>
+    );
 }
 
-export default UserCredentialsDialog
+export default AppointmentsDetails

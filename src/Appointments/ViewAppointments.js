@@ -5,6 +5,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Calendar from 'react-awesome-calendar';
 import "./ViewAppointments.css"
+import AppointmentsDetails from "./AppointmentsDetails"
 
 function ViewAppointments({ userType, token }) {
   const useStyles = makeStyles((theme) => ({
@@ -14,7 +15,6 @@ function ViewAppointments({ userType, token }) {
   }));
 
   let [appointments, setAppointments] = useState([])
-  let [appointmentDescription, setAppointmentDescription] = useState(null)
   let [events, setEvents] = useState([])
   let [focusEvent, setFocusEvent] = useState(-1)
 
@@ -75,50 +75,15 @@ function ViewAppointments({ userType, token }) {
       events={events}
       onClickEvent={(event) => setFocusEvent(event)} />
 
-    <Paper className={classes.root}>
-      {focusEvent !== -1
-        &&
-        <div className="infoForm">
-          <Typography variant="h4" align="center"> Appointment with {appointments[focusEvent]["doctor_id"]} </Typography>
 
-          <Typography className="form" variant="h5"> Description </Typography>
-
-          <Typography variant="body1"> {appointments[focusEvent]["description"]} </Typography>
-
-          <Typography className="form" variant="h5">Update Appointment description</Typography>
-          
-          <TextField            
-            label="New Description"
-            type="text"
-            value={appointmentDescription}
-            onChange={({ target: { value } }) => setAppointmentDescription(value)}>
-          </TextField>
-            <Button className="button" variant="contained" size="small" color="primary">
-              Update
-            </Button>
-
-          <Typography className="form" variant="h5">Change Appointment Time</Typography>
-          <TextField            
-            label="New Time"
-            type="text"
-            value={appointments[focusEvent]["appointment_time"]}
-            onChange={({ target: { value } }) =>{}}>   
-          </TextField>
-          <Button className="button" variant="contained" size="small" color="primary">
-              Update
-            </Button>
-
-            <Button className="button" variant="contained" size="small" color="primary" onClick={() => setFocusEvent(-1)}>
-              Close
-            </Button>
-
-            <Button className="button" variant="contained" size="small" color="primary" 
-              onClick={()=>{deleteAppointment(/* DONT FORGET */ 3); setFocusEvent(-1)}}>
-              Cancel Appointment
-            </Button>
-        </div>
-      }
-    </Paper>
+    {focusEvent !== -1 && 
+    <AppointmentsDetails 
+      open={focusEvent !== -1}
+      onClose={() => setFocusEvent(-1)}
+      appointment={appointments[focusEvent]}
+      deleteAppointment={(id) => deleteAppointment(id)}
+      />
+    }
   </div>
 }
 
