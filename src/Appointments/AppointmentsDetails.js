@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogTitle, Typography, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AppointmentsDetails.css";
 
 // Component that presents a dialog to collect credentials from the user
@@ -12,6 +12,7 @@ function AppointmentsDetails({
 }) {
     let [newAppointmentDescription, setAppointmentDescription] = useState(null)
     let [newAppointmentTime, setAppointmentTime] = useState(null)
+    let [report, setReport] = useState('No Report Submitted Yet')
 
     function updateAppointmentDescription(){
         return fetch('http://127.0.0.1:5000/appointment', {
@@ -41,6 +42,23 @@ function AppointmentsDetails({
         .then(data => {console.log(data)})
     }
 
+    function getReport(){
+        return fetch(`http://127.0.0.1:5000/reports/AppointmentID`, {
+            method : 'POST',
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body : JSON.stringify({
+              'appointment_id' : appointment['id']
+          })
+        }).then(response => response.json())
+        .then(data => setReport(`Dr. ${appointment['doctor_name']} said : ` + data.description))
+    }
+
+    useEffect(getReport, [])
+
+
     return (
         <Dialog open={open} onClose={onClose} fullWidth>
             <div className="dialog-container">
@@ -65,7 +83,7 @@ function AppointmentsDetails({
 
                 <div className="form-item" style={{ display: "flex" }}>
                     <Typography style={{flexDirection:'column'}} > Report: </Typography>
-                    <Typography style={{marginLeft:20}}> ... </Typography>
+                    <Typography style={{marginLeft:20}}> {report} </Typography>
                 </div>
 
                 <Typography className="form-item">Update Appointment description</Typography>
