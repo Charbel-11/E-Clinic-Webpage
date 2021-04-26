@@ -77,6 +77,7 @@ function App() {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
         setUserType(body.is_doctor);
+        closeAllPanels();
         if (remember) { saveUserToken(body.token); saveUserType(body.is_doctor); }
         else { saveUserToken(null); saveUserType(null); }
       });
@@ -179,7 +180,7 @@ function App() {
       <UserCredentialDialog
         open={authState === States.USER_LOG_IN ? true : false}
         onSubmit={(username, password, remember) => {
-          login(username, password, remember);
+          login(username, password, remember); 
         }}
         onClose={() => {
           setAuthState(States.PENDING);
@@ -187,9 +188,6 @@ function App() {
         title={"Login"}
         submitText={"Login"}
       />
-
-
-
     </div>
   );
 }

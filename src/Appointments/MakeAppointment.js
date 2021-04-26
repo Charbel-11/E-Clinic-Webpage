@@ -119,6 +119,7 @@ export function MakeAppointment({SERVER_URL, token}) {
           if (i < n) busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
           else busyTime = 0;
         }
+//        if (i<n){console.log(cur, busyTime, cur.getTime(), busyTime.getTime())}
         if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) { i++; continue; }
         if (cur.getHours() < 11|| cur.getHours() > 20) { continue; }
         

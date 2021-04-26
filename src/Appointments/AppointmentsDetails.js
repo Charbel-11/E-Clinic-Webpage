@@ -8,10 +8,12 @@ function AppointmentsDetails({
     onClose,
     appointment,
     deleteAppointment,
-    token
+    token,
+    userType
 }) {
     let [newAppointmentDescription, setAppointmentDescription] = useState(null)
     let [newAppointmentTime, setAppointmentTime] = useState(null)
+    let [newReport, setNewReport] = useState("")
     let [report, setReport] = useState('No Report Submitted Yet')
 
     function updateAppointmentDescription(){
@@ -63,7 +65,7 @@ function AppointmentsDetails({
         <Dialog open={open} onClose={onClose} fullWidth>
             <div className="dialog-container">
                 <div className="title">
-                    <Typography variant="h4"> Appointment with {appointment["doctor_name"]} </Typography>
+                    <Typography variant="h4"> Appointment with {(userType === 2 ? appointment["doctor_name"]: appointment["user_name"])} </Typography>
                 </div>
 
                 <div className="form-item" style={{ display: "flex" }}>
@@ -86,7 +88,7 @@ function AppointmentsDetails({
                     <Typography style={{marginLeft:20}}> {report} </Typography>
                 </div>
 
-                <Typography className="form-item">Update Appointment description</Typography>
+                <Typography className="form-item" variant="h6">Update Appointment description</Typography>
                 <div className="form-item">
                     <TextField
                         label="New Description"
@@ -100,7 +102,7 @@ function AppointmentsDetails({
                     </Button>
                 </div>
 
-                <Typography className="form-item">Change Appointment Time</Typography>
+                <Typography className="form-item" variant="h6">Change Appointment Time</Typography>
                 <div className="form-item">
                     <TextField
                         label="New Time"
@@ -113,6 +115,24 @@ function AppointmentsDetails({
                         Update
                     </Button>
                 </div>
+
+                {userType === 1 &&
+                <div className="form-item">
+                    <Typography variant="h6">Update Report</Typography>
+                    <div>
+                        <TextField
+                            label="New Report"
+                            type="text"
+                            value={newReport}
+                            onChange={({ target: { value } }) => setNewReport(newReport)}
+                            style={{flexDirection: 'column'}}
+                        />
+                        <Button variant="contained" size="small" color="primary" style={{marginLeft:20}} onClick = {updateAppointmentTime}>
+                            Update
+                        </Button>
+                    </div>
+                </div>
+                }
 
                 <div className="button">
                 <Button variant="contained" size="small" color="primary"
