@@ -8,7 +8,7 @@ Date.prototype.addHours = function(h) {
   return this;
 }
 
-export function MakeAppointment({SERVER_URL, token}) {
+export function MakeAppointment({SERVER_URL, token, changePanel}) {
   const useStyles = makeStyles(theme => ({
     button: {
       margin: theme.spacing(1)
@@ -56,7 +56,8 @@ export function MakeAppointment({SERVER_URL, token}) {
         appointment_description : appointmentDescription
       })
     }).then((response) => response.json())
-    .then(appt => {createReport(appt.id)})
+    .then(appt => {createReport(appt.id); changePanel()})
+    
   };
 
   function createReport(id){
