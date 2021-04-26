@@ -3,25 +3,25 @@ import { Button, TextField, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Calendar from 'react-awesome-calendar';
 
-const events = [{
-    id: 0,
-    color: '#fd3153',
-    from: '2021-05-02T18:00',
-    to: '2021-05-05T19:00',
-    title: 'This is an event'
-}, {
-    id: 1,
-    color: '#1ccb9e',
-    from: '2021-05-01T13:00',
-    to: '2021-05-05T14:00',
-    title: 'This is another event'
-}, {
-    id: 2,
-    color: '#3694DF',
-    from: '2021-05-05T13:00',
-    to: '2021-05-05T20:00',
-    title: 'This is also another event'
-}];
+// const events = [{
+//     id: 0,
+//     color: '#fd3153',
+//     from: '2021-05-02T18:00',
+//     to: '2021-05-05T19:00',
+//     title: 'This is an event'
+// }, {
+//     id: 1,
+//     color: '#1ccb9e',
+//     from: '2021-05-01T13:00',
+//     to: '2021-05-05T14:00',
+//     title: 'This is another event'
+// }, {
+//     id: 2,
+//     color: '#3694DF',
+//     from: '2021-05-05T13:00',
+//     to: '2021-05-05T20:00',
+//     title: 'This is also another event'
+// }];
 
 export function MakeAppointment({SERVER_URL, token}) {
   const useStyles = makeStyles(theme => ({
@@ -51,6 +51,8 @@ export function MakeAppointment({SERVER_URL, token}) {
     }
   }));
 
+  let [events, setEvents] = useState([])
+  let [appointments, setAppointments] = useState([])
   let [doctorName, setDoctorName] = useState("");
   let [appointmentTime, setAppointmentTime] = useState("");
   let [appointmentDescription, setAppointmentDescription] = useState("");
@@ -70,6 +72,46 @@ export function MakeAppointment({SERVER_URL, token}) {
       })
     }).then(response => {console.log(response)});
   };
+
+  function fetchAppointments() {
+    return fetch('http://127.0.0.1:5000/appointment_dr', {
+      method : "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      },
+      body : JSON.stringify({
+        doctor_name : doctorName
+      })
+    })
+      .then((response) => response.json())
+      .then((appointments) => { setAppointments(appointments); updateCalendar(appointments); })
+  }
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+
+  function updateCalendar(apptmnts) {
+    var curEvents = [];
+    for (var i = 0; i < apptmnts.length; i++) {
+      var curEvent = {
+        id: i.toString(),
+        color: getRandomColor(),
+        from: apptmnts[i]["appointment_time"],
+        to: apptmnts[i]["appointment_time"],
+        title: apptmnts[i]["doctor_id"]
+      }
+      curEvents.push(curEvent);
+    }
+    setEvents(curEvents);
+  }
 
   const classes = useStyles();
   return (
@@ -121,7 +163,7 @@ export function MakeAppointment({SERVER_URL, token}) {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick = {() => setState(state+1)}
+            onClick = {() => {fetchAppointments();setState(state+1)}}
             //TODO: If going from 0 to 1, check that the doctor name is valid (otherwise provide feedback)
             //And change the events variable accordingly
           >
