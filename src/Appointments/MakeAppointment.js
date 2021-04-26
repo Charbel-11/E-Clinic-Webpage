@@ -3,26 +3,6 @@ import { Button, TextField, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Calendar from 'react-awesome-calendar';
 
-// const events = [{
-//     id: 0,
-//     color: '#fd3153',
-//     from: '2021-05-02T18:00',
-//     to: '2021-05-05T19:00',
-//     title: 'This is an event'
-// }, {
-//     id: 1,
-//     color: '#1ccb9e',
-//     from: '2021-05-01T13:00',
-//     to: '2021-05-05T14:00',
-//     title: 'This is another event'
-// }, {
-//     id: 2,
-//     color: '#3694DF',
-//     from: '2021-05-05T13:00',
-//     to: '2021-05-05T20:00',
-//     title: 'This is also another event'
-// }];
-
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + (h*60*60*1000));
   return this;
@@ -75,8 +55,23 @@ export function MakeAppointment({SERVER_URL, token}) {
         appointment_date: appointmentTime.slice(0, -8),
         appointment_description : appointmentDescription
       })
-    }).then(response => {console.log(response)});
+    }).then((response) => response.json())
+    .then(appt => {createReport(appt.id)})
   };
+
+  function createReport(id){
+    return fetch(`${SERVER_URL}/reports`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        appointment_id : id,
+        description : 'Nothing Submitted Yet'
+      })
+    }).then(response => {console.log(response)});
+  }
 
   function fetchAppointments() {
     return fetch('http://127.0.0.1:5000/appointment_dr', {
