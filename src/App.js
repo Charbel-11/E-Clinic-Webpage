@@ -135,7 +135,7 @@ function App() {
                 </div>
               }
               {
-                make_app === true && 
+                make_app === true && userType == 2 &&
                 <div className = "FeedBox">
                    <h1>Create an Appointment!</h1>
                    <MakeAppointment SERVER_URL={SERVER_URL} token={userToken}></MakeAppointment>    
