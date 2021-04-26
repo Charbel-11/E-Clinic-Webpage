@@ -44,6 +44,21 @@ function AppointmentsDetails({
         .then(data => {console.log(data)})
     }
 
+    function updateReport(){
+        console.log("SS")
+        return fetch('http://127.0.0.1:5000/reports', {
+          method: 'PATCH',
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json"
+          }, body: JSON.stringify({
+              'appointment_id' : appointment['id'],
+              'description' : newReport
+          })
+        }).then(response => response.json())
+        .then(data => {console.log(data)})
+    }
+
     function getReport(){
         return fetch(`http://127.0.0.1:5000/reports/AppointmentID`, {
             method : 'POST',
@@ -124,10 +139,10 @@ function AppointmentsDetails({
                             label="New Report"
                             type="text"
                             value={newReport}
-                            onChange={({ target: { value } }) => setNewReport(newReport)}
+                            onChange={({ target: { value } }) => setNewReport(value)}
                             style={{flexDirection: 'column'}}
                         />
-                        <Button variant="contained" size="small" color="primary" style={{marginLeft:20}} onClick = {updateAppointmentTime}>
+                        <Button variant="contained" size="small" color="primary" style={{marginLeft:20}} onClick = {updateReport}>
                             Update
                         </Button>
                     </div>
