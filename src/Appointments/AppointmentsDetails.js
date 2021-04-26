@@ -27,7 +27,7 @@ function AppointmentsDetails({
               'appointment_description' : newAppointmentDescription
           })
         }).then(response => response.json())
-        .then(data => {appointment = data})
+        .then(() => {appointment["appointment_description"] = newAppointmentDescription; setAppointmentDescription(""); })
     }
 
     function updateAppointmentTime(){
@@ -41,11 +41,10 @@ function AppointmentsDetails({
               'appointment_time' : newAppointmentTime
           })
         }).then(response => response.json())
-        .then(data => {console.log(data)})
+        .then(() => {appointment["appointment_time"] = newAppointmentTime; setAppointmentTime(""); })
     }
 
     function updateReport(){
-        console.log("SS")
         return fetch('http://127.0.0.1:5000/reports', {
           method: 'PATCH',
           headers: {
@@ -56,7 +55,7 @@ function AppointmentsDetails({
               'description' : newReport
           })
         }).then(response => response.json())
-        .then(data => {console.log(data)})
+        .then(() => {setReport(`Dr. ${appointment['doctor_name']} said : ` + newReport); setNewReport(""); })
     }
 
     function getReport(){
