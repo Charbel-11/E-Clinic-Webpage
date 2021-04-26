@@ -61,6 +61,10 @@ function App() {
     }).then(response => login(username, password, remember));
   }
 
+  function changePanel(){
+    closeAllPanels(); setAppointmentsVariable(true);
+  }
+
   function login(username, password, remember) {
     return fetch(`${SERVER_URL}/authentication`, {
       method: "POST",
@@ -138,7 +142,7 @@ function App() {
                 make_app === true && userType == 2 &&
                 <div className = "FeedBox">
                    <h1>Create an Appointment!</h1>
-                   <MakeAppointment SERVER_URL={SERVER_URL} token={userToken}></MakeAppointment>    
+                   <MakeAppointment SERVER_URL={SERVER_URL} token={userToken} changePanel = {changePanel}></MakeAppointment>    
                 </div>
               } 
               {
