@@ -116,8 +116,8 @@ export function MakeAppointment({SERVER_URL, token}) {
         }
 //        if (i<n){console.log(cur, busyTime, cur.getTime(), busyTime.getTime())}
         if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) { i++; continue; }
-        if (cur.getHours() < 11|| cur.getHours() > 20) { continue; }
-        
+        if (cur.getHours() < 11|| cur.getHours() > 20 || cur.getDay() == 0 || cur.getDay() == 6) { continue; }
+              
         apptmnts.push({ 
           "appointment_time": cur.toISOString(),
           "doctor_id": doctorName
