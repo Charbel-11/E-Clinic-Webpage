@@ -50,7 +50,7 @@ function AppointmentsDetails({
 
                 <div className="form-item" style={{ display: "flex" }}>
                     <Typography style={{flexDirection:'column'}} > Time: </Typography>
-                    <Typography style={{marginLeft:20}}> {appointment["appointment_time"]} </Typography>
+                    <Typography style={{marginLeft:20}}> {appointment["appointment_time"].slice(0,-3)} </Typography>
                 </div>
 
                 <div className="form-item" style={{ display: "flex" }}>

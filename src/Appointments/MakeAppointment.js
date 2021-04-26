@@ -23,6 +23,11 @@ import Calendar from 'react-awesome-calendar';
 //     title: 'This is also another event'
 // }];
 
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
+}
+
 export function MakeAppointment({SERVER_URL, token}) {
   const useStyles = makeStyles(theme => ({
     button: {
@@ -67,7 +72,7 @@ export function MakeAppointment({SERVER_URL, token}) {
       },
       body: JSON.stringify({
         doctor_name: doctorName,
-        appointment_date: appointmentTime,
+        appointment_date: appointmentTime.slice(0, -8),
         appointment_description : appointmentDescription
       })
     }).then(response => {console.log(response)});
@@ -85,25 +90,50 @@ export function MakeAppointment({SERVER_URL, token}) {
       })
     })
       .then((response) => response.json())
-      .then((appointments) => { setAppointments(appointments); updateCalendar(appointments); })
+      .then((appointments) => { console.log(appointments); setAppointments(appointments); updateCalendar(appointments, true); })
+      .then(() => setState(state+1))
   }
 
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+  function updateCalendar(apptmnts, reverse = false) {
+    if (reverse){
+      var busyEvents = apptmnts;
+      var n = busyEvents.length;
+      apptmnts = [];
+
+      var cur = new Date();
+      cur.addHours(1);
+      cur.setMinutes(0);
+      cur.setSeconds(0);
+      cur.setMilliseconds(0);
+      var i = 0;
+      while(i < n){
+        var busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
+        if (cur.getTime() <= busyTime.getTime()){ break; }
+        i++;
+      }
+      
+      var busyTime = (i < n ? new Date(busyEvents[i]["appointment_time"]+".000Z"): 0);
+      for(var j = 0; j < 24*30; j++, cur=cur.addHours(1)){    
+        while(i < n && busyTime.getTime() + 1000 < cur.getTime()) { 
+          i++;
+          if (i < n) busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
+          else busyTime = 0;
+        }
+        if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) { i++; continue; }
+        if (cur.getHours() < 11|| cur.getHours() > 20) { continue; }
+        
+        apptmnts.push({ 
+          "appointment_time": cur.toISOString(),
+          "doctor_id": doctorName
+        })
+      }
     }
-    return color;
-  }
-
-
-  function updateCalendar(apptmnts) {
+    
     var curEvents = [];
     for (var i = 0; i < apptmnts.length; i++) {
       var curEvent = {
         id: i.toString(),
-        color: getRandomColor(),
+        color: "#00FF00",
         from: apptmnts[i]["appointment_time"],
         to: apptmnts[i]["appointment_time"],
         title: apptmnts[i]["doctor_id"]
@@ -163,7 +193,7 @@ export function MakeAppointment({SERVER_URL, token}) {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick = {() => {fetchAppointments();setState(state+1)}}
+            onClick = {() => {fetchAppointments();}}
             //TODO: If going from 0 to 1, check that the doctor name is valid (otherwise provide feedback)
             //And change the events variable accordingly
           >

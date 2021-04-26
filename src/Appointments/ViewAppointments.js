@@ -60,8 +60,8 @@ function ViewAppointments({ userType, token }) {
       var curEvent = {
         id: i.toString(),
         color: getRandomColor(),
-        from: apptmnts[i]["appointment_time"],
-        to: apptmnts[i]["appointment_time"],
+        from: apptmnts[i]["appointment_time"]+".000Z",
+        to: apptmnts[i]["appointment_time"]+".000Z",
         title: apptmnts[i]["doctor_id"]
       }
       curEvents.push(curEvent);
