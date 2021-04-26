@@ -144,11 +144,11 @@ function App() {
               {
                 view_docs === true && 
                 <div className = "FeedBox">
-                   {userType === 2 && <h1>View Doctors in the Table Below!</h1>}
+                   {userType > 0 && <h1>View Doctors in the Table Below!</h1>}
                    {userType === 0 && <h1>View Users in the Table Below!</h1>}
                    
                    {userType === 0 && <Users token = {userToken}></Users>}
-                   {userType === 2 && <Doctors token = {userToken}></Doctors>}
+                   {userType > 0 && <Doctors token = {userToken}></Doctors>}
                 </div>
               } 
               {
