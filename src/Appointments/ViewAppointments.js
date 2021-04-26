@@ -19,7 +19,20 @@ function ViewAppointments({ userType, token }) {
   let [focusEvent, setFocusEvent] = useState(-1)
 
   function fetchAppointments() {
+    if(userType == 1){
+      return fetchDoctorAppointments();
+    }
     return fetch('http://127.0.0.1:5000/appointment', {
+      headers: {
+        Authorization: "Bearer " + token
+      },
+    })
+      .then((response) => response.json())
+      .then((appointments) => { setAppointments(appointments); updateCalendar(appointments); })
+  }
+
+  function fetchDoctorAppointments() {
+    return fetch('http://127.0.0.1:5000/appointment_drs', {
       headers: {
         Authorization: "Bearer " + token
       },
@@ -76,7 +89,7 @@ function ViewAppointments({ userType, token }) {
       onClickEvent={(event) => setFocusEvent(event)} />
 
 
-    {focusEvent !== -1 && 
+    {focusEvent !== -1 && userType === 2 && 
     <AppointmentsDetails 
       open={focusEvent !== -1}
       onClose={() => {setFocusEvent(-1); fetchAppointments()}}
