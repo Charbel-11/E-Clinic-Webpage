@@ -91,7 +91,6 @@ function App() {
 
   return (
     <div className="App">
-
       <AppBar position="static" color = "primary" className = "appBar">
         <Toolbar className="header">
           <Typography variant="h5" className="header_title">

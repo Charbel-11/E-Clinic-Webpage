@@ -79,9 +79,10 @@ function ViewAppointments({ userType, token }) {
     {focusEvent !== -1 && 
     <AppointmentsDetails 
       open={focusEvent !== -1}
-      onClose={() => setFocusEvent(-1)}
+      onClose={() => {setFocusEvent(-1); fetchAppointments()}}
       appointment={appointments[focusEvent]}
       deleteAppointment={(id) => deleteAppointment(id)}
+      token = {token}
       />
     }
   </div>
