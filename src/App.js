@@ -77,7 +77,8 @@ function App() {
         setAuthState(States.USER_AUTHENTICATED);
         setUserToken(body.token);
         setUserType(body.is_doctor);
-        if (remember) { saveUserToken(body.token); saveUserType(body.is_doctor); }
+        closeAllPanels(); 
+        if (remember) {saveUserToken(body.token); saveUserType(body.is_doctor); }
         else { saveUserToken(null); saveUserType(null); }
       });
   }

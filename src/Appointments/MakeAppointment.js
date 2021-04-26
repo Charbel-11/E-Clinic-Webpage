@@ -75,8 +75,23 @@ export function MakeAppointment({SERVER_URL, token}) {
         appointment_date: appointmentTime.slice(0, -8),
         appointment_description : appointmentDescription
       })
-    }).then(response => {console.log(response)});
+    }).then((response) => response.json())
+    .then(appt => {createReport(appt.id)})
   };
+
+  function createReport(id){
+    return fetch(`${SERVER_URL}/reports`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        appointment_id : id,
+        description : 'Nothing Submitted Yet'
+      })
+    }).then(response => {console.log(response)});
+  }
 
   function fetchAppointments() {
     return fetch('http://127.0.0.1:5000/appointment_dr', {
@@ -119,7 +134,7 @@ export function MakeAppointment({SERVER_URL, token}) {
           if (i < n) busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
           else busyTime = 0;
         }
-        if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) { i++; continue; }
+        if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 60000) { i++; continue; }
         if (cur.getHours() < 11|| cur.getHours() > 20) { continue; }
         
         apptmnts.push({ 
