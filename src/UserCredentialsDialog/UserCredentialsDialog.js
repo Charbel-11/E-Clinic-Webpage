@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogTitle, TextField } from "@material-ui/core";
+import { Button, Dialog, DialogTitle, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import "./UserCredentialsDialog.css";
 import Checkbox from '@material-ui/core/Checkbox';
@@ -10,7 +10,8 @@ function UserCredentialsDialog({
   onSubmit,
   onClose,
   title,
-  submitText
+  submitText,
+  errorMsg
 }) {
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
@@ -55,6 +56,9 @@ function UserCredentialsDialog({
         >
           {submitText}
         </Button>
+
+        <div><br/></div>
+        <Typography color="secondary">{errorMsg}</Typography>
       </div>
     </Dialog>
   );

@@ -36,6 +36,7 @@ function App() {
   let [view_docs, set_view_docs] = useState(false);
   let [register, setRegister] = useState(false);
   let [userType, setUserType] = useState(getUserType());  // 0 - Admin,  1 - User
+  let [errorMsg, setErrorMsg] = useState("");
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
@@ -84,13 +85,16 @@ function App() {
         closeAllPanels();
         if (remember) { saveUserToken(body.token); saveUserType(body.is_doctor); }
         else { saveUserToken(null); saveUserType(null); }
-      });
+      })
+      .catch(()=>setErrorMsg("Wrong Username/Password"))
+      ;
   }
 
   function logout(){
     setUserToken(null);
     saveUserToken(null);
     saveUserType(null);
+    setErrorMsg("");
   }
 
 
@@ -188,9 +192,11 @@ function App() {
         }}
         onClose={() => {
           setAuthState(States.PENDING);
+          setErrorMsg("");
         }}
         title={"Login"}
         submitText={"Login"}
+        errorMsg={errorMsg}
       />
     </div>
   );
