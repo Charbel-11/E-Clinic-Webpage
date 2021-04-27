@@ -41,6 +41,19 @@ function ViewAppointments({ userType, token }) {
       .then((appointments) => { setAppointments(appointments); updateCalendar(appointments); })
   }
 
+  function deleteReport(appointmentId){
+    return fetch('http://127.0.0.1:5000/reports', {
+      method: 'DELETE',
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        appointment_id: appointmentId
+      })
+    }).then(response => console.log(response))
+  }
+
   function deleteAppointment(appointmentId) {
     console.log(appointmentId)
     return fetch('http://127.0.0.1:5000/appointment', {
@@ -94,7 +107,7 @@ function ViewAppointments({ userType, token }) {
       open={focusEvent !== -1}
       onClose={() => {setFocusEvent(-1); fetchAppointments()}}
       appointment={appointments[focusEvent]}
-      deleteAppointment={(id) => deleteAppointment(id)}
+      deleteAppointment={(id) => {deleteReport(id);deleteAppointment(id)}}
       token = {token}
       userType = {userType}
       />
