@@ -6,7 +6,7 @@ import {
   Typography,
   Button, Paper
 } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
 import SignUpDialog from "./SignUpDialog/SignUpDialog"
 import { MakeAppointment } from "./Appointments/MakeAppointment";
@@ -45,6 +45,10 @@ function App() {
   let [register, setRegister] = useState(false);
   let [userType, setUserType] = useState(getUserType());  // 0 - Admin,  1 - User
   let [errorMsg, setErrorMsg] = useState("");
+  let [numUsers, setnumUsers] = useState("");
+  let [numDocs, setnumDocs] = useState("");
+  let [numPat, setnumPats] = useState("");
+  let[numAppts, setnumAppts] = useState("")
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
@@ -73,6 +77,35 @@ function App() {
 
   function changePanel(){
     closeAllPanels(); setAppointmentsVariable(true);
+  }
+
+  function getNumberofAppointments(){
+    try {
+      fetch("http://127.0.0.1:5000/appointments/number")
+        .then(response => response.json())
+        .then(data => {
+          setnumAppts(data.appointments_number)
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function getNumberofUsers(){
+    try {
+      fetch("http://127.0.0.1:5000/users/number", {
+        headers: {
+        "Authorization": "Bearer " + userToken
+      }})
+        .then(response => response.json())
+        .then(data => {
+          setnumDocs(data.doctors_number);
+          setnumPats(data.patients_number);
+          setnumUsers(data.users_number);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function login(username, password, remember) {
@@ -105,6 +138,9 @@ function App() {
     saveUserType(null);
     setErrorMsg("");
   }
+
+  useEffect(getNumberofUsers, [])
+  // useEffect(getNumberofAppointments,[])
 
   const classes = useStyles();
   return (
@@ -180,8 +216,10 @@ function App() {
                 view_stats === true && 
                 <div className = "stats">
                   <Paper className={classes.root}>
-                    <Typography> Total number of users:</Typography>
-                    <Typography> Total number of appointments:</Typography>
+                    <Typography> Total number of users: {numUsers}</Typography>
+                    <Typography> Total number of doctors: {numDocs}</Typography>
+                    <Typography> Total number of patients: {numPat}</Typography>
+                    <Typography> Total number of appointments: {numPat}</Typography>
                   </Paper>      
                 </div>
               }
