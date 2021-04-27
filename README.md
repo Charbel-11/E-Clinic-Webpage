@@ -1,71 +1,37 @@
-# Getting Started with Create React App
+# CSE Clinic
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### About
+The project consists of an application front for a Mental Care system. 
+Its purpose is to facilitate Patients Appointment taking and Monitoring, especially during the COVID-19 crisis.
 
-## Available Scripts
+All users are registered by the Admin and given their credentials.
+Patients are able to search for doctors, take a look at their upcoming appointments and reports, and attend consultations via an automatically generated zoom link.
+Doctors are able to see all their patient's reports in order to monitor their case. They are also required to write new reports after every consultation.
 
-In the project directory, you can run:
+### Technologies
+This repository consists of the application Frontend. 
+The Frontend platform used is React JS.
 
-### `yarn start`
-#Test
+### Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Step 1 : Clone the repository
+In order to clone the frontend repository : 
+1. Create a new folder, anywhere in your PC
+2. Open Command Prompt and change the directory into the folder created
+3. Enter : git clone https://github.com/HusseinJaber20/Clinic---430
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Step 2 : Install Packages
+The node_modules directory is not a part of a cloned repository and should be downloaded using the npm install command to download all the direct and transitive dependencies mentioned in the package.json file:
+1. Using the Command Prompt, Enter : cd clinic
+2. Using the Command Prompt, Enter : npm install
 
-### `yarn test`
+#### Step 3 : Run the Backend
+Please see the Backend's Repo for more details on how to run the application's backend. You can find the link below!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Step 4 : Run the Frontend
+1. Using the Command Prompt, Enter : npm start
 
-### `yarn build`
+The backend can be found here:
+https://github.com/m-mattar/430-project-backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Enjoy our application! :)
