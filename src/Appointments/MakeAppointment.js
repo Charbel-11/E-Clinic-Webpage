@@ -108,23 +108,23 @@ export function MakeAppointment({SERVER_URL, token, changePanel}) {
       cur.setSeconds(0);
       cur.setMilliseconds(0);
       var i = 0;
-      while(i < n){
-        var busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
-        if (cur.getTime() <= busyTime.getTime()){ break; }
-        i++;
-      }
-      
-      var busyTime = (i < n ? new Date(busyEvents[i]["appointment_time"]+".000Z"): 0);
+  
+      var busyTime = (i < n ? new Date(busyEvents[i]["appointment_time"]+".000Z"): 0);      
       for(var j = 0; j < 24*30; j++, cur=cur.addHours(1)){    
         while(i < n && busyTime.getTime() + 1000 < cur.getTime()) { 
           i++;
           if (i < n) busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
           else busyTime = 0;
         }
-//        if (i<n){console.log(cur, busyTime, cur.getTime(), busyTime.getTime())}
-        if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) { i++; continue; }
+
+        if (i < n && Math.abs(cur.getTime() - busyTime.getTime()) < 1000) {
+           i++; 
+           if (i < n) busyTime = new Date(busyEvents[i]["appointment_time"]+".000Z");
+           else busyTime = 0;
+           continue;
+        }
+           
         if (cur.getHours() < 11|| cur.getHours() > 20 || cur.getDay() == 0 || cur.getDay() == 6) { continue; }
-              
         apptmnts.push({ 
           "appointment_time": cur.toISOString(),
           "doctor_id": doctorName
