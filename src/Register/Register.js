@@ -12,7 +12,7 @@ function Register({SERVER_URL, token}) {
   let [lastName, setLastName] = useState("");
   let [information, setInformation] = useState("");
   let [is_doctor, setIsDoctor] = useState(0);
-  let [successfull, setSuccessful] = useState(false);
+  let [successfull, setSuccessful] = useState("");
 
 
   function createUser(username, password, first_name, last_name, information,is_doctor) {
@@ -30,7 +30,8 @@ function Register({SERVER_URL, token}) {
         information : information,
         is_doctor : is_doctor
       })
-    }).then(response => {setSuccessful(true)})
+    }).then(response => {setSuccessful("Registered Successfully")})
+    .catch(()=>setSuccessful("Invalid Input, Please try again!"))
   }
 
   return (
@@ -97,7 +98,9 @@ function Register({SERVER_URL, token}) {
         >
             Create User
         </Button>
-        {successfull && <div>Registered Successfully</div>}
+        <br></br>
+        <br></br>
+        {successfull}
       </div>
   );
 }
