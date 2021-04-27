@@ -3,8 +3,7 @@ import SidebarRow from "./SidebarRow"
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import HealingIcon from '@material-ui/icons/Healing';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import LocalPharmacyIcon from '@material-ui/icons/LocalPharmacy';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
+import FunctionsIcon from '@material-ui/icons/Functions';
 import InfoIcon from '@material-ui/icons/Info';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
@@ -15,7 +14,7 @@ function Sidebar({setAppointmentsVariable, make_app, view_docs, userType, regist
         {userType !== 0 && <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Doctors'></SidebarRow>}
         {userType === 0 && <SidebarRow fcn = {view_docs} Icon = {HealingIcon} title = 'View Users'></SidebarRow>}
         {userType === 0 &&  <SidebarRow fcn = {register} Icon = {PersonAddIcon} title = "Register a User"></SidebarRow>}
-        <SidebarRow Icon = {InfoIcon} title = 'About Us'></SidebarRow>
+        {userType === 0 && <SidebarRow Icon = {FunctionsIcon} title = 'Statistics'></SidebarRow>}
     </div>
 }
 
