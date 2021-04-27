@@ -27,6 +27,10 @@ html, body{
   display:flex;
 }
 
+.stats{
+  margin: 20px;
+}
+
 .sideBar{
   flex : 0.3;
 }

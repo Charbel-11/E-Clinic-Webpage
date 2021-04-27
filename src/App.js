@@ -1,9 +1,10 @@
 import "./App.css";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
   Toolbar,
   Typography,
-  Button
+  Button, Paper
 } from "@material-ui/core";
 import { useState } from "react";
 import UserCredentialDialog from "./UserCredentialsDialog/UserCredentialsDialog";
@@ -28,12 +29,19 @@ const States = {
 export const SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
+  const useStyles = makeStyles(theme => ({
+    root: {
+      padding: theme.spacing(3, 2)
+    },
+  }));
+
   // States
   let [userToken, setUserToken] = useState(getUserToken());
   let [authState, setAuthState] = useState(States.PENDING);
   let [appointmentsVariable, setAppointmentsVariable] = useState(false);
   let [make_app, set_make_app] = useState(false);
   let [view_docs, set_view_docs] = useState(false);
+  let [view_stats, set_view_stats] = useState(false);
   let [register, setRegister] = useState(false);
   let [userType, setUserType] = useState(getUserType());  // 0 - Admin,  1 - User
   let [errorMsg, setErrorMsg] = useState("");
@@ -43,6 +51,7 @@ function App() {
     set_make_app(false);
     set_view_docs(false);
     setRegister(false);
+    set_view_stats(false);
   }
 
   // Helper Functions
@@ -97,7 +106,7 @@ function App() {
     setErrorMsg("");
   }
 
-
+  const classes = useStyles();
   return (
     <div className="App">
       <AppBar position="static" color = "primary" className = "appBar">
@@ -132,6 +141,7 @@ function App() {
                  view_docs = {() => {closeAllPanels(); set_view_docs(true)}}
                  userType = {userType}
                  register = {() => {closeAllPanels(); setRegister(true)}}
+                 showStats = {() => {closeAllPanels(); set_view_stats(true); }}
                  className = "sideBar">
             </SideBar>
             <div className = "Feed">
@@ -164,6 +174,15 @@ function App() {
                 <div className = "FeedBox">
                    <h1>Register a User by Filling the Form Below!</h1>
                    <Register SERVER_URL={SERVER_URL} token = {userToken}></Register>     
+                </div>
+              }
+              {
+                view_stats === true && 
+                <div className = "stats">
+                  <Paper className={classes.root}>
+                    <Typography> Total number of users:</Typography>
+                    <Typography> Total number of appointments:</Typography>
+                  </Paper>      
                 </div>
               }
             </div>
