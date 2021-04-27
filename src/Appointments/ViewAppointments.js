@@ -69,16 +69,14 @@ function ViewAppointments({ userType, token }) {
 
   function updateCalendar(apptmnts) {
     var curEvents = [];
-    console.log(apptmnts)
     for (var i = 0; i < apptmnts.length; i++) {
       var curEvent = {
         id: i.toString(),
         color: getRandomColor(),
-        from: apptmnts[i]["appointment_time"]+".000Z",
-        to: apptmnts[i]["appointment_time"]+".000Z",
-        title: (userType == 2 ? "Dr. " + apptmnts[i]["doctor_name"] : apptmnts[i]["user_name"])
+        from: apptmnts[i]["appointment_time"],
+        to: apptmnts[i]["appointment_time"],
+        title: apptmnts[i]["doctor_id"]
       }
-      console.log(curEvent)
       curEvents.push(curEvent);
     }
     setEvents(curEvents);
@@ -90,7 +88,8 @@ function ViewAppointments({ userType, token }) {
       events={events}
       onClickEvent={(event) => setFocusEvent(event)} />
 
-    {focusEvent !== -1 && userType !== 0 && 
+
+    {focusEvent !== -1 && 
     <AppointmentsDetails 
       open={focusEvent !== -1}
       onClose={() => {setFocusEvent(-1); fetchAppointments()}}
