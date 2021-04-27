@@ -30,8 +30,11 @@ function Register({SERVER_URL, token}) {
         information : information,
         is_doctor : is_doctor
       })
-    }).then(response => {setSuccessful("Registered Successfully")})
-    .catch(()=>setSuccessful("Invalid Input, Please try again!"))
+    })
+    .then(response => {
+      if(response["status"] == 500){ setSuccessful("Invalid Input, Please try again!"); }
+      else{setSuccessful("Registered Successfully");}
+    })
   }
 
   return (
