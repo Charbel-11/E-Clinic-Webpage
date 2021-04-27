@@ -42,6 +42,7 @@ export function MakeAppointment({SERVER_URL, token, changePanel}) {
   let [appointmentTime, setAppointmentTime] = useState("");
   let [appointmentDescription, setAppointmentDescription] = useState("");
   let [state, setState] = useState(0);
+  let [errMsg, setErrMsg] = useState("");
 
   function createAppointment() {
     return fetch(`${SERVER_URL}/appointment`, {
@@ -52,7 +53,7 @@ export function MakeAppointment({SERVER_URL, token, changePanel}) {
       },
       body: JSON.stringify({
         doctor_name: doctorName,
-        appointment_date: appointmentTime.slice(0, -8),
+        appointment_time: appointmentTime.slice(0, -8),
         appointment_description : appointmentDescription
       })
     }).then((response) => response.json())
@@ -86,8 +87,13 @@ export function MakeAppointment({SERVER_URL, token, changePanel}) {
       })
     })
       .then((response) => response.json())
-      .then((appointments) => { console.log(appointments); setAppointments(appointments); updateCalendar(appointments, true); })
+      .then((appointments) => { 
+        console.log(appointments);
+        setErrMsg("");  
+        setAppointments(appointments); updateCalendar(appointments, true);
+      })
       .then(() => setState(state+1))
+      .catch(() => setErrMsg("There is no doctor with this username"))
   }
 
   function updateCalendar(apptmnts, reverse = false) {
@@ -191,12 +197,12 @@ export function MakeAppointment({SERVER_URL, token, changePanel}) {
             color="primary"
             className={classes.button}
             onClick = {() => {fetchAppointments();}}
-            //TODO: If going from 0 to 1, check that the doctor name is valid (otherwise provide feedback)
-            //And change the events variable accordingly
           >
             Next
           </Button>
           }
+
+          <Typography color="secondary">{errMsg}</Typography>
       </Paper> 
       </div>
       <div>

@@ -76,7 +76,7 @@ function ViewAppointments({ userType, token }) {
         color: getRandomColor(),
         from: apptmnts[i]["appointment_time"]+".000Z",
         to: apptmnts[i]["appointment_time"]+".000Z",
-        title: (userType == 2 ? "Dr. " + apptmnts[i]["doctor_name"] : apptmnts[i]["user_name"])
+        title: (userType == 2 ? "Dr. " + apptmnts[i]["doctor_name"] : apptmnts[i]["patient_name"])
       }
       console.log(curEvent)
       curEvents.push(curEvent);

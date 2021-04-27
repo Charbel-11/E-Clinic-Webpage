@@ -79,7 +79,7 @@ function AppointmentsDetails({
         <Dialog open={open} onClose={onClose} fullWidth>
             <div className="dialog-container">
                 <div className="title">
-                    <Typography variant="h4"> Appointment with {(userType === 2 ? appointment["doctor_name"]: appointment["user_name"])} </Typography>
+                    <Typography variant="h4"> Appointment with {(userType === 2 ? appointment["doctor_name"]: appointment["patient_name"])} </Typography>
                 </div>
 
                 <div className="form-item" style={{ display: "flex" }}>
