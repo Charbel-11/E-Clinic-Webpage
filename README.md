@@ -22,7 +22,7 @@ In order to clone the frontend repository :
 
 #### Step 2 : Install Packages
 The node_modules directory is not a part of a cloned repository and should be downloaded using the npm install command to download all the direct and transitive dependencies mentioned in the package.json file:
-1. Using the Command Prompt, Enter : cd Clinic---430
+1. Using the Command Prompt, Enter : cd E-Clinic-Webpage
 2. Using the Command Prompt, Enter : npm install
 
 #### Step 3 : Run the Backend
