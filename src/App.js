@@ -48,7 +48,7 @@ function App() {
   let [numUsers, setnumUsers] = useState("");
   let [numDocs, setnumDocs] = useState("");
   let [numPat, setnumPats] = useState("");
-  let[numAppts, setnumAppts] = useState("")
+  let [numAppts, setnumAppts] = useState("")
   
   function closeAllPanels(){
     setAppointmentsVariable(false);
@@ -219,7 +219,7 @@ function App() {
                     <Typography> Total number of users: {numUsers}</Typography>
                     <Typography> Total number of doctors: {numDocs}</Typography>
                     <Typography> Total number of patients: {numPat}</Typography>
-                    <Typography> Total number of appointments: {numPat}</Typography>
+                    <Typography> Total number of appointments: {numAppts}</Typography>
                   </Paper>      
                 </div>
               }
