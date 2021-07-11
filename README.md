@@ -18,7 +18,7 @@ The Frontend platform used is React JS.
 In order to clone the frontend repository : 
 1. Create a new folder, anywhere in your PC
 2. Open Command Prompt and change the directory into the folder created
-3. Enter : git clone https://github.com/HusseinJaber20/Clinic---430
+3. Enter : git clone https://github.com/Charbel-11/E-Clinic-Webpage.git
 
 #### Step 2 : Install Packages
 The node_modules directory is not a part of a cloned repository and should be downloaded using the npm install command to download all the direct and transitive dependencies mentioned in the package.json file:
